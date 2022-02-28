@@ -63,12 +63,16 @@ async function getCollectionFolderPage(
       api_url: apiUrl,
       endpoints,
       records_per_page,
+      folders_to_sort_by_title
     }
   } = conf;
   const { username } = await getIdentity();
   const perPage = recordsPerPage || records_per_page;
+
+  const sortBy = await getSortParam(username, folderId, apiUrl, endpoints.folder_metadata, folders_to_sort_by_title);
+
   const userFolderUrl = endpoints.folder.replace('{username}', username).replace('{id}', folderId.toString());
-  const folderUrl = `${apiUrl}${userFolderUrl}?sort=artist&per_page=${perPage}&page=${pageNumber}`;
+  const folderUrl = `${apiUrl}${userFolderUrl}?sort=${sortBy}&per_page=${perPage}&page=${pageNumber}`;
   const folderResponse = await secureFetch(folderUrl);
   const {
     releases,
@@ -76,6 +80,22 @@ async function getCollectionFolderPage(
   } = await getJson(folderResponse);
 
   return { totalPages, releases };
+}
+
+async function getSortParam(
+    username: string,
+    folderId: string,
+    apiUrl: string,
+    folderMetadataEndpoint: string,
+    foldersToSortByTitle: string[]
+): Promise<string> {
+  const folderMetadataUrl = folderMetadataEndpoint
+      .replace('{username}', username)
+      .replace('{folder_id}', folderId);
+  const metadataResponse = await secureFetch(`${apiUrl}${folderMetadataUrl}`);
+  const metadataJson = await getJson(metadataResponse);
+  const folderName = metadataJson.name;
+  return foldersToSortByTitle.includes(folderName) ? "title" : "artist";
 }
 
 async function getIdentity(): Promise<*> {
