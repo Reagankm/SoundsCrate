@@ -68,7 +68,7 @@ async function getCollectionFolderPage(
   const { username } = await getIdentity();
   const perPage = recordsPerPage || records_per_page;
   const userFolderUrl = endpoints.folder.replace('{username}', username).replace('{id}', folderId.toString());
-  const folderUrl = `${apiUrl}${userFolderUrl}?per_page=${perPage}&page=${pageNumber}`;
+  const folderUrl = `${apiUrl}${userFolderUrl}?sort=artist&per_page=${perPage}&page=${pageNumber}`;
   const folderResponse = await secureFetch(folderUrl);
   const {
     releases,
