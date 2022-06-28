@@ -31,6 +31,8 @@ look like this:
   S_CONSUMER_SECRET=Your Discogs Consumer Secret
   ```
 
+- The default sort shows albums sorted by artist. If you have any folders you'd like to sort by title, add them to 
+`folders_to_sort_by_title` in conf.js
 - Make sure you have react native cli installed globally, and do `react-native run-ios` or `react-native run-android` 
 in the root directory of the project.
 - Happy browsing!

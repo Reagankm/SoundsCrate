@@ -17,7 +17,7 @@ export default {
       folder_metadata: 'users/{username}/collection/folders/{folder_id}',
       identity: 'oauth/identity',
     },
-    records_per_page: 20,
+    records_per_page: 100,
     folders_to_sort_by_title: ['Compilations']
   },
   app_user_agent: 'Sounds-Crate/1.0',
